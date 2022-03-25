@@ -1,10 +1,10 @@
-package com.flying.ffsong;
+package com.flying.ghost;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class FfsongApplicationTests {
+class GhostApplicationTests {
 
     @Test
     void contextLoads() {

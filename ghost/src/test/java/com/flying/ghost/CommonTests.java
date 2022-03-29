@@ -1,5 +1,7 @@
 package com.flying.ghost;
 
+import com.flying.ghost.common.handler.CaseConversionHandler;
+import com.flying.ghost.pojo.Student;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -40,10 +42,20 @@ class CommonTests {
     }
 
     @Test
-    void testString2Integer(String[] args) {
+    void testString2Integer() {
         String num = "1";
         System.out.println(Integer.valueOf(num));
         System.out.println(Integer.valueOf(""));
         System.out.println(Integer.valueOf(null));
+    }
+
+    @Test
+    void testAnnotation() throws IllegalAccessException {
+        Student student = new Student();
+        student.setCnName("小明");
+        student.setEnName("xiaoming");
+        student.setGender("男");
+        CaseConversionHandler.caseConvert(student);
+        System.out.println(student.toString());
     }
 }

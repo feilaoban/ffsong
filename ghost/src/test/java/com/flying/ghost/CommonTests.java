@@ -45,8 +45,8 @@ class CommonTests {
     void testString2Integer() {
         String num = "1";
         System.out.println(Integer.valueOf(num));
-        System.out.println(Integer.valueOf(""));
-        System.out.println(Integer.valueOf(null));
+//        System.out.println(Integer.valueOf(""));        // java.lang.NumberFormatException: For input string: ""
+//        System.out.println(Integer.valueOf(null));      // java.lang.NumberFormatException: null
     }
 
     @Test

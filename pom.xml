@@ -12,18 +12,35 @@
 
     <!-- 子模块 -->
     <modules>
-        <module>ghost</module>
+        <module>cloud-demo</module>
     </modules>
 
     <!-- 版本号统一管理 -->
     <properties>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.5.2</spring-boot.version>
+        <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
         <spring-cloud-alibaba.version>2.2.6.RELEASE</spring-cloud-alibaba.version>
         <hutool-all.version>5.6.3</hutool-all.version>
+        <rocketmq-client.version>4.2.0</rocketmq-client.version>
+        <rocketmq-spring-boot-starter.version>2.1.0</rocketmq-spring-boot-starter.version>
     </properties>
 
-    <!-- 环境版本依赖管理（只声明不引入，做统一版本控制，子模块无version使用此处的版本号，否则使用子模块自己的版本号） -->
+    <!-- Spring Cloud Alibaba是Spring Cloud的子项目，基于Spring Cloud，符合Spring Cloud标准（Spring Cloud又基于Springboot）-->
+    <!-- springcloud hoxton SR9 生产版本 -->
+    <parent>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Hoxton.SR9</version>
+    </parent>
+
+    <!-- dependencyManagement 与 dependencies 的区别
+         1. 相对于dependencyManagement，所有声明在dependencies里的依赖都会自动引入，并默认被所有的子项目继承。
+         2. dependencies即使在子项目中不写该依赖项，那么子项目仍然会从父项目中继承该依赖项（全部继承）
+         3. dependencyManagement里只是声明依赖，并不实现引入，因此子项目需要显示的声明需要用的依赖。
+            如果不在子项目中声明依赖，是不会从父项目中继承下来的；只有在子项目中写了该依赖项，
+            并且没有指定具体版本，才会从父项目中继承该项，并且version和scope都读取自父pom;
+            另外如果子项目中指定了版本号，那么会使用子项目中指定的jar版本。
+    -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -54,6 +71,21 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!--配置处理器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!-- nacos -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
         <!-- hutool -->
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -65,6 +97,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <!-- rocketMQ -->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>${rocketmq-client.version}</version>
         </dependency>
     </dependencies>
 

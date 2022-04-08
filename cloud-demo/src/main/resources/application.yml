@@ -1,0 +1,21 @@
+spring:
+  #nacos配置
+  cloud:
+    nacos:
+      # 服务注册
+      discovery:
+        server-addr: 192.168.32.46:8848
+        namespace: 5a914336-4d04-4e14-8f94-ee0c858743cb
+      # 配置中心
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: 5a914336-4d04-4e14-8f94-ee0c858743cb
+        file-extension: yml
+
+# rocketmq 配置
+rocketmq:
+  name-service: 127.0.0.1:9876
+  producer-group: @artifactId@-producer-group
+  consumer-group: @artifactId@-consumer-group
+  retry-times: 0
+  topic: FFSONG_DEMO

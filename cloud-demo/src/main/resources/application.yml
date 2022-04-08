@@ -4,12 +4,12 @@ spring:
     nacos:
       # 服务注册
       discovery:
-        server-addr: 192.168.32.46:8848
-        namespace: 5a914336-4d04-4e14-8f94-ee0c858743cb
+        server-addr: 127.0.0.1:8848
+        namespace: e1f396fa-152f-4415-8733-8c853ae9ac1f
       # 配置中心
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
-        namespace: 5a914336-4d04-4e14-8f94-ee0c858743cb
+        namespace: e1f396fa-152f-4415-8733-8c853ae9ac1f
         file-extension: yml
 
 # rocketmq 配置

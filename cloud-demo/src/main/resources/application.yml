@@ -15,7 +15,7 @@ spring:
 # rocketmq 配置
 rocketmq:
   name-service: 127.0.0.1:9876
-  producer-group: @artifactId@-producer-group
-  consumer-group: @artifactId@-consumer-group
+  producer-group: demo-producer-group
+  consumer-group: demo-consumer-group
   retry-times: 0
   topic: FFSONG_DEMO

@@ -2,8 +2,6 @@ package com.flying.demo;
 
 import com.flying.demo.common.handler.CaseConversionHandler;
 import com.flying.demo.pojo.Student;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,18 +15,23 @@ import java.util.stream.Collectors;
  * @Date 2022/1/26 14:47
  * @Description
  */
-@SpringBootTest
 class CommonTests {
 
-    @Test
-    void testRegular() {
+    public static void main(String[] args) throws IllegalAccessException {
+//        testRegular();
+//        test2ListToMap();
+//        testString2Integer();
+//        testAnnotation();
+        testStreamMin();
+    }
+
+    private static void testRegular() {
         Pattern CHINESE_CHARACTER_PATTERN = Pattern.compile("[^(a-zA-Z0-9\\u4e00-\\u9fa5)]");
         Matcher matcher = CHINESE_CHARACTER_PATTERN.matcher("汉字123：哈哈、abc,.?!@34#$");
         System.out.println(matcher.replaceAll("").trim());
     }
 
-    @Test
-    void test2ListToMap() {
+    private static void test2ListToMap() {
         List<Long> list1 = new ArrayList<>();
         list1.add(1L);
         list1.add(2L);
@@ -41,21 +44,29 @@ class CommonTests {
         System.out.println(map.toString());
     }
 
-    @Test
-    void testString2Integer() {
+    private static void testString2Integer() {
         String num = "1";
         System.out.println(Integer.valueOf(num));
 //        System.out.println(Integer.valueOf(""));        // java.lang.NumberFormatException: For input string: ""
 //        System.out.println(Integer.valueOf(null));      // java.lang.NumberFormatException: null
     }
 
-    @Test
-    void testAnnotation() throws IllegalAccessException {
+    private static void testAnnotation() throws IllegalAccessException {
         Student student = new Student();
         student.setCnName("小明");
         student.setEnName("xiaoming");
         student.setGender("男");
         CaseConversionHandler.caseConvert(student);
         System.out.println(student.toString());
+    }
+
+    private static void testStreamMin() {
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        int min = list.stream().min(Integer::compareTo).get();
+        System.out.println(min);
     }
 }

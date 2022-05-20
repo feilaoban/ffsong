@@ -12,6 +12,37 @@ spring:
         namespace: e1f396fa-152f-4415-8733-8c853ae9ac1f
         file-extension: yml
 
+  datasource:
+    # 动态数据源配置
+    dynamic:
+      hikari:
+        # 池中维护的最小空闲连接数
+        min-idle: 5
+        # 池中最大连接数，包括闲置和使用中的连接
+        max-pool-size: 20
+        # 池中连接最长生命周期
+        max-lifetime: 1800000
+        # 自动提交从池中返回的连接
+        is-auto-commit: true
+        # 连接允许在池中闲置的最长时间
+        idle-timeout: 30000
+        # 等待来自池的连接的最大毫秒数
+        connection-timeout: 30000
+        # 连接池名称
+        pool-name: qm-base-biz-HikariCP
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      # 开启seata
+      seata: false
+      datasource:
+        # 主数据库
+        master:
+          username: root
+          password: ffsong
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${MYQSL_HOST:localhost}:${MYSQL_PORT:3306}/ffsong?useUnicode=true&useSSL=false&characterEncoding=utf8&allowMultiQueries=true&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
+          type: com.zaxxer.hikari.HikariDataSource
+        # 用户数据库
+
 # rocketmq 配置
 rocketmq:
   name-service: 127.0.0.1:9876

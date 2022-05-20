@@ -8,9 +8,9 @@ import java.util.concurrent.ExecutionException;
  * @Date 2021/8/16 16:55
  * @Description
  */
-public class TestCompletableFuture {
+public class CompletableFutureTest {
     public static void main(String[] args) {
-        TestCompletableFuture.futureTest();
+        CompletableFutureTest.futureTest();
     }
 
     private static void futureTest() {

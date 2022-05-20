@@ -1,7 +1,7 @@
 package com.flying.demo;
 
 import com.flying.demo.common.handler.CaseConversionHandler;
-import com.flying.demo.pojo.Student;
+import com.flying.demo.pojo.entity.Student;
 
 import java.util.ArrayList;
 import java.util.List;

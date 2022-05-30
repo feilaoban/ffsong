@@ -4,12 +4,13 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.EasyExcel;
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.flying.demo.common.handler.ErrorContextHandler;
 import com.flying.demo.dao.StudentMapper;
 import com.flying.demo.pojo.dto.StudentDTO;
 import com.flying.demo.pojo.entity.Student;
-import com.flying.demo.service.ThreadLocalTestService;
+import com.flying.demo.service.StudentService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,7 +24,8 @@ import java.util.stream.Collectors;
  * @Description
  */
 @Service
-public class ThreadLocalTestServiceImpl extends ServiceImpl<StudentMapper, Student> implements ThreadLocalTestService {
+@DS("master")
+public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> implements StudentService {
 
     @Override
     public void batchSave(MultipartFile file) throws IOException {
@@ -49,6 +51,17 @@ public class ThreadLocalTestServiceImpl extends ServiceImpl<StudentMapper, Stude
             ErrorContextHandler.clear();
             System.out.println(printMsg);
         }
+    }
+
+    @Override
+    public Student getOneById(Long studentId) {
+        return this.getById(studentId);
+    }
+
+    @Override
+    @DS("slave")
+    public List<Student> getAll() {
+        return this.list();
     }
 
     /**

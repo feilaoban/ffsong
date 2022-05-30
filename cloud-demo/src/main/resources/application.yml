@@ -42,6 +42,12 @@ spring:
           url: jdbc:mysql://${MYQSL_HOST:localhost}:${MYSQL_PORT:3306}/ffsong?useUnicode=true&useSSL=false&characterEncoding=utf8&allowMultiQueries=true&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
           type: com.zaxxer.hikari.HikariDataSource
         # 用户数据库
+        slave:
+          username: root
+          password: ffsong
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${MYQSL_HOST:localhost}:${MYSQL_PORT:3306}/ffsong_1?useUnicode=true&useSSL=false&characterEncoding=utf8&allowMultiQueries=true&rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
+          type: com.zaxxer.hikari.HikariDataSource
 
 # rocketmq 配置
 rocketmq:

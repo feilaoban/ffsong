@@ -29,7 +29,7 @@ spring:
         # 等待来自池的连接的最大毫秒数
         connection-timeout: 30000
         # 连接池名称
-        pool-name: qm-base-biz-HikariCP
+        pool-name: HikariCP_1
       primary: master #设置默认的数据源或者数据源组,默认值即为master
       # 开启seata
       seata: false

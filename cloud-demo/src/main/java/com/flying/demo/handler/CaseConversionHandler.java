@@ -1,4 +1,4 @@
-package com.flying.demo.common.handler;
+package com.flying.demo.handler;
 
 import com.flying.demo.common.annotation.CaseConversion;
 

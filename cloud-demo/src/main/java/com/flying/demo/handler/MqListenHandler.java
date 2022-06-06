@@ -1,4 +1,4 @@
-package com.flying.demo.common.handler;
+package com.flying.demo.handler;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
-package com.flying.demo.common.handler;
+package com.flying.demo.handler;
 
-import com.flying.demo.common.config.MqParamConfig;
-import com.flying.demo.common.config.MqProducerConfig;
+import com.flying.demo.config.MqParamConfig;
+import com.flying.demo.config.MqProducerConfig;
 import lombok.SneakyThrows;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;

@@ -1,4 +1,4 @@
-package com.flying.demo.common.config;
+package com.flying.demo.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

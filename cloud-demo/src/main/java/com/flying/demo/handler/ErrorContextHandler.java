@@ -1,4 +1,4 @@
-package com.flying.demo.common.handler;
+package com.flying.demo.handler;
 
 import cn.hutool.core.collection.CollUtil;
 import com.google.common.collect.ArrayListMultimap;

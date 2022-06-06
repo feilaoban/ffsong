@@ -1,6 +1,6 @@
-package com.flying.demo.common.config;
+package com.flying.demo.config;
 
-import com.flying.demo.common.handler.MqListenHandler;
+import com.flying.demo.handler.MqListenHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;

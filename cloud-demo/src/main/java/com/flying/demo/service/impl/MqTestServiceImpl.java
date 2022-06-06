@@ -1,6 +1,6 @@
 package com.flying.demo.service.impl;
 
-import com.flying.demo.common.handler.MqPushHandler;
+import com.flying.demo.handler.MqPushHandler;
 import com.flying.demo.service.MqTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

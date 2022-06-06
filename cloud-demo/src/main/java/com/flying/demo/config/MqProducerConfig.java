@@ -1,4 +1,4 @@
-package com.flying.demo.common.config;
+package com.flying.demo.config;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

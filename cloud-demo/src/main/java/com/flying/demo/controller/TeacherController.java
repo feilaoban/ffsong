@@ -1,13 +1,13 @@
 package com.flying.demo.controller;
 
+import com.flying.demo.pojo.entity.Teacher;
 import com.flying.demo.service.TeacherService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author songfeifei
@@ -23,8 +23,15 @@ public class TeacherController {
     TeacherService teacherService;
 
     @ApiOperation(value = "查询")
-    @GetMapping("/test/{teacherId}")
-    public void testMq(@PathVariable("teacherId") Long teacherId) {
-        teacherService.getOneById(teacherId);
+    @GetMapping("/query")
+    public void query(@RequestParam("teacherId") Long teacherId) {
+
+        // DB：ffsong Teacher.name = 李老师
+        Teacher teacher = teacherService.getOneById(teacherId);
+        System.out.println("DB：ffsong Teacher.name = " + teacher.getCnName());
+
+        // DB：ffsong_1 Teacher.name = 李老师_1
+        List<Teacher> teachers = teacherService.getAll();
+        System.out.println("DB：ffsong_1 Teacher.name = " + teachers.get(0).getCnName());
     }
 }

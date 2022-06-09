@@ -15,7 +15,12 @@ import java.util.Map;
 /**
  * @Author songfeifei
  * @Date 2022/6/8 14:16
- * @Description 多数据源配置类
+ * @Description 多数据源配置类。
+ * 【注意】
+ * 1、使用 @DS 注解切换数据源时，使用springboot数据源的自动配置，需要将此配置注释掉
+ * 2、使用 @DataSource 自定义注解时，排除springboot数据源的自动配置，引入此配置
+ * 3、使用 @DS 时，数据源配置为：spring.datasource.dynamic.datasource.master.url
+ * 4、使用 @DataSource 时，数据源配置为：spring.datasource.dynamic.datasource.master.jdbc-url
  */
 @Component
 @Configuration

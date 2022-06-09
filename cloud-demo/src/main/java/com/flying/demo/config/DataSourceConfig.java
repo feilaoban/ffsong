@@ -31,7 +31,7 @@ public class DataSourceConfig {
      * @return 数据源master
      */
     @Bean(name = "master")
-    @ConfigurationProperties("spring.datasource.dynamic.datasource.master")
+    @ConfigurationProperties(prefix = "spring.datasource.dynamic.datasource.master")
     public DataSource masterDataSource() {
         return DataSourceBuilder.create().build();
     }
@@ -41,7 +41,7 @@ public class DataSourceConfig {
      * @return 数据源slave
      */
     @Bean(name = "slave")
-    @ConfigurationProperties("spring.datasource.dynamic.datasource.slave")
+    @ConfigurationProperties(prefix = "spring.datasource.dynamic.datasource.slave")
     public DataSource slaveDataSource() {
         return DataSourceBuilder.create().build();
     }
@@ -50,12 +50,13 @@ public class DataSourceConfig {
      * 数据源配置
      * @param master 数据源master
      * @param slave 数据源slave
-     * @return 动态数据源切换对象
+     * @return 动态数据源切换对象。
+     * @Description @Primary赋予该类型bean更高的优先级，使至少有一个bean有资格作为autowire的候选者。
      */
     @Bean
     @Primary
-    public DynamicDataSource dataSource(@Qualifier("master") DataSource master,
-                                        @Qualifier("slave") DataSource slave) {
+    public DataSource dataSource(@Qualifier("master") DataSource master,
+                                 @Qualifier("slave") DataSource slave) {
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         Map<Object, Object> dsMap = new HashMap<>(2);
         dsMap.put("master", master);

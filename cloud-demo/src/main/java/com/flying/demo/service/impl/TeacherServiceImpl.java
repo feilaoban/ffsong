@@ -1,6 +1,5 @@
 package com.flying.demo.service.impl;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.flying.demo.common.annotation.DataSource;
 import com.flying.demo.dao.TeacherMapper;
@@ -19,7 +18,6 @@ import java.util.List;
 public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> implements TeacherService {
 
     @Override
-//    @DS("slave")
     @DataSource(name = "master")
     public Teacher getOneById(Long teacherId) {
         return this.getById(teacherId);

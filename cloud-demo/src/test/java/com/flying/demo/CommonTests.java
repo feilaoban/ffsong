@@ -1,8 +1,10 @@
 package com.flying.demo;
 
+import cn.hutool.core.util.NumberUtil;
 import com.flying.demo.handler.CaseConversionHandler;
 import com.flying.demo.pojo.entity.Student;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +24,8 @@ class CommonTests {
 //        test2ListToMap();
 //        testString2Integer();
 //        testAnnotation();
-        testStreamMin();
+//        testStreamMin();
+        testBigDecimal();
     }
 
     private static void testRegular() {
@@ -68,5 +71,14 @@ class CommonTests {
         list.add(3);
         int min = list.stream().min(Integer::compareTo).get();
         System.out.println(min);
+    }
+
+    private static void testBigDecimal() {
+        BigDecimal b1 = new BigDecimal(1);
+        try {
+            BigDecimal r1 = b1.add(null);
+        } finally {
+            System.out.println("finally:" + NumberUtil.add(null, b1));
+        }
     }
 }

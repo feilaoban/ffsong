@@ -57,12 +57,9 @@ public class DataSourceConfig {
     @Primary
     public DataSource dataSource(@Qualifier("master") DataSource master,
                                  @Qualifier("slave") DataSource slave) {
-        DynamicDataSource dynamicDataSource = new DynamicDataSource();
         Map<Object, Object> dsMap = new HashMap<>(2);
         dsMap.put("master", master);
         dsMap.put("slave", slave);
-        dynamicDataSource.setDefaultTargetDataSource(master);
-        dynamicDataSource.setTargetDataSources(dsMap);
-        return dynamicDataSource;
+        return new DynamicDataSource(master, dsMap);
     }
 }

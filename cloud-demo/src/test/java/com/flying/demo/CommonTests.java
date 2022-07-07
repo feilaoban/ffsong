@@ -1,5 +1,6 @@
 package com.flying.demo;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.flying.demo.handler.CaseConversionHandler;
 import com.flying.demo.pojo.entity.Student;
@@ -25,7 +26,8 @@ class CommonTests {
 //        testString2Integer();
 //        testAnnotation();
 //        testStreamMin();
-        testBigDecimal();
+//        testBigDecimal();
+        testSnowflake();
     }
 
     private static void testRegular() {
@@ -80,5 +82,9 @@ class CommonTests {
         } finally {
             System.out.println("finally:" + NumberUtil.add(null, b1));
         }
+    }
+
+    private static void testSnowflake() {
+        System.out.println(IdUtil.getSnowflake(0, 1).nextId());
     }
 }

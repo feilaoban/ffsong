@@ -34,4 +34,10 @@ public class TeacherController {
         List<Teacher> teachers = teacherService.getAll();
         System.out.println("DB：ffsong_1 Teacher.name = " + teachers.get(0).getCnName());
     }
+
+    @ApiOperation(value = "保存(事务测试)")
+    @GetMapping("/save")
+    public void save() {
+        teacherService.saveTeacher();
+    }
 }

@@ -25,4 +25,9 @@ public interface TeacherService extends IService<Teacher> {
      */
     List<Teacher> getAll();
 
+    /**
+     * 事务测试
+     */
+    void saveTeacher();
+
 }

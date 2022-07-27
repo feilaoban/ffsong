@@ -1,9 +1,11 @@
 package com.flying.demo;
 
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.flying.demo.handler.CaseConversionHandler;
 import com.flying.demo.pojo.entity.Student;
+import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,13 +23,21 @@ import java.util.stream.Collectors;
 class CommonTests {
 
     public static void main(String[] args) throws IllegalAccessException {
+        commonTest();
 //        testRegular();
 //        test2ListToMap();
 //        testString2Integer();
 //        testAnnotation();
 //        testStreamMin();
 //        testBigDecimal();
-        testSnowflake();
+//        testSnowflake();
+    }
+
+    private static void commonTest() {
+        //List<String> list = Lists.newArrayList("str");
+        //System.out.println(list.contains(null));
+
+        System.out.println(DateUtil.yesterday());
     }
 
     private static void testRegular() {

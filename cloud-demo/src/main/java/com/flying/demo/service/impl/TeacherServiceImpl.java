@@ -38,7 +38,7 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
     }
 
 /*
-    // 在类内部调用调用类内部@Transactional标注的方法，会导致事务失效
+    // 在类内部调用调用类内部@Transactional标注的方法，会导致事务失效。@Transactional加在外部方法上正常，即在saveTeacher()上
     @Override
     public void saveTeacher() {
         save();

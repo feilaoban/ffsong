@@ -56,3 +56,10 @@ rocketmq:
   consumer-group: demo-consumer-group
   retry-times: 0
   topic: FFSONG_DEMO
+
+# 定时任务异步执行线程池参数
+executor:
+  corePoolSize: 5
+  maxPoolSize: 10
+  keepAliveTime: 60
+  capacity: 100

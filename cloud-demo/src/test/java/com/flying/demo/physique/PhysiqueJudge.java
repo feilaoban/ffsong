@@ -40,9 +40,9 @@ public class PhysiqueJudge {
         });
 
         // 1、平和质判定
-        sb.append(judgePeacePhysique(physiques));
+        judgePeacePhysique(physiques, sb);
         // 2、偏颇体质判定
-        sb.append(judgeBiasedPhysique(physiques));
+        judgeBiasedPhysique(physiques, sb);
 
         return sb.substring(0, sb.length() - 1);
     }
@@ -51,10 +51,8 @@ public class PhysiqueJudge {
      * 判定平和体质
      *
      * @param physiques 体质列表
-     * @return 评定结果
      */
-    private String judgePeacePhysique(List<Physique> physiques) {
-        StringBuilder sb = new StringBuilder();
+    private void judgePeacePhysique(List<Physique> physiques, StringBuilder sb) {
         int peacePhysiqueScore = 0;
         List<Integer> biasedPhysiqueScores = new ArrayList<>();
         for (Physique physique : physiques) {
@@ -73,17 +71,14 @@ public class PhysiqueJudge {
             // 平和质转化分 >= 60 且 其他8种体质转化分均 < 40
             sb.append("基本是平和质，");
         }
-        return sb.toString();
     }
 
     /**
      * 判定偏颇体质
      *
      * @param physiques 体质列表
-     * @return 评定结果
      */
-    private String judgeBiasedPhysique(List<Physique> physiques) {
-        StringBuilder sb = new StringBuilder();
+    private void judgeBiasedPhysique(List<Physique> physiques, StringBuilder sb) {
         physiques.forEach(physique -> {
             if (PhysiqueTypeEnum.PING_HE.getCode().equals(physique.getType())) {
                 return;
@@ -123,7 +118,6 @@ public class PhysiqueJudge {
                 default:
             }
         });
-        return sb.toString();
     }
 
     /**

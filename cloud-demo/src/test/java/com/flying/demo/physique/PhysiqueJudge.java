@@ -1,5 +1,6 @@
 package com.flying.demo.physique;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -44,6 +45,9 @@ public class PhysiqueJudge {
         // 2、偏颇体质判定
         judgeBiasedPhysique(physiques, sb);
 
+        if (StrUtil.isBlank(sb)) {
+            return "无";
+        }
         return sb.substring(0, sb.length() - 1);
     }
 

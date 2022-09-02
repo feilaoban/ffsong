@@ -24,7 +24,7 @@ public class PhysiqueJudgeTest {
         EntryScore yangXuScore7 = new EntryScore(1, false);
         List<EntryScore> yangXuEntryScores = Lists.newArrayList(yangXuScore1, yangXuScore2, yangXuScore3, yangXuScore4, yangXuScore5, yangXuScore6, yangXuScore7);
         Physique yangXu = new Physique(1, yangXuEntryScores);
-        physique.add(yangXu);
+        //physique.add(yangXu);
         // 阴虚质
         EntryScore yinXuScore1 = new EntryScore(4, false);
         EntryScore yinXuScore2 = new EntryScore(4, false);
@@ -48,7 +48,7 @@ public class PhysiqueJudgeTest {
         EntryScore qiXuScore8 = new EntryScore(5, false);
         List<EntryScore> qiXuEntryScores = Lists.newArrayList(qiXuScore1, qiXuScore2, qiXuScore3, qiXuScore4, qiXuScore5, qiXuScore6, qiXuScore7, qiXuScore8);
         Physique qiXu = new Physique(3, qiXuEntryScores);
-        physique.add(qiXu);
+        //physique.add(qiXu);
         // 痰湿质
         EntryScore tanShiScore1 = new EntryScore(2, false);
         EntryScore tanShiScore2 = new EntryScore(4, false);
@@ -60,7 +60,7 @@ public class PhysiqueJudgeTest {
         EntryScore tanShiScore8 = new EntryScore(1, false);
         List<EntryScore> tanShiEntryScores = Lists.newArrayList(tanShiScore1, tanShiScore2, tanShiScore3, tanShiScore4, tanShiScore5, tanShiScore6, tanShiScore7, tanShiScore8);
         Physique tanShi = new Physique(4, tanShiEntryScores);
-        physique.add(tanShi);
+        //physique.add(tanShi);
         // 湿热质
         EntryScore shiReScore1 = new EntryScore(2, false);
         EntryScore shiReScore2 = new EntryScore(1, false);
@@ -71,7 +71,7 @@ public class PhysiqueJudgeTest {
         EntryScore shiReScore7 = new EntryScore(4, false);
         List<EntryScore> shiReEntryScores = Lists.newArrayList(shiReScore1, shiReScore2, shiReScore3, shiReScore4, shiReScore5, shiReScore6, shiReScore7);
         Physique shiRe = new Physique(5, shiReEntryScores);
-        physique.add(shiRe);
+        //physique.add(shiRe);
         // 血瘀质
         EntryScore xueYuScore1 = new EntryScore(1, false);
         EntryScore xueYuScore2 = new EntryScore(1, false);
@@ -82,7 +82,7 @@ public class PhysiqueJudgeTest {
         EntryScore xueYuScore7 = new EntryScore(1, false);
         List<EntryScore> xueYuEntryScores = Lists.newArrayList(xueYuScore1, xueYuScore2, xueYuScore3, xueYuScore4, xueYuScore5, xueYuScore6, xueYuScore7);
         Physique xueYu = new Physique(6, xueYuEntryScores);
-        physique.add(xueYu);
+        //physique.add(xueYu);
         // 特禀质
         EntryScore teBingScore1 = new EntryScore(2, false);
         EntryScore teBingScore2 = new EntryScore(1, false);
@@ -93,7 +93,7 @@ public class PhysiqueJudgeTest {
         EntryScore teBingScore7 = new EntryScore(5, false);
         List<EntryScore> teBingEntryScores = Lists.newArrayList(teBingScore1, teBingScore2, teBingScore3, teBingScore4, teBingScore5, teBingScore6, teBingScore7);
         Physique teBing = new Physique(7, teBingEntryScores);
-        physique.add(teBing);
+        //physique.add(teBing);
         // 气郁质
         EntryScore qiYuScore1 = new EntryScore(3, false);
         EntryScore qiYuScore2 = new EntryScore(2, false);
@@ -104,7 +104,7 @@ public class PhysiqueJudgeTest {
         EntryScore qiYuScore7 = new EntryScore(1, false);
         List<EntryScore> qiYuEntryScores = Lists.newArrayList(qiYuScore1, qiYuScore2, qiYuScore3, qiYuScore4, qiYuScore5, qiYuScore6, qiYuScore7);
         Physique qiYu = new Physique(8, qiYuEntryScores);
-        physique.add(qiYu);
+        //physique.add(qiYu);
         // 平和质
         EntryScore pingHeScore1 = new EntryScore(4, false);
         EntryScore pingHeScore2 = new EntryScore(4, true);
@@ -116,7 +116,7 @@ public class PhysiqueJudgeTest {
         EntryScore pingHeScore8 = new EntryScore(3, true);
         List<EntryScore> pingHeEntryScores = Lists.newArrayList(pingHeScore1, pingHeScore2, pingHeScore3, pingHeScore4, pingHeScore5, pingHeScore6, pingHeScore7, pingHeScore8);
         Physique pingHe = new Physique(9, pingHeEntryScores);
-        physique.add(pingHe);
+        //physique.add(pingHe);
 
         PhysiqueJudge physiqueJudge = new PhysiqueJudge();
         System.out.println("体质判定结果：" + physiqueJudge.physiqueJudge(physique));

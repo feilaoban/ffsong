@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -23,7 +25,7 @@ import java.util.stream.Collectors;
 class CommonTests {
 
     public static void main(String[] args) throws IllegalAccessException {
-        commonTest();
+        //commonTest();
 //        testRegular();
 //        test2ListToMap();
 //        testString2Integer();
@@ -31,6 +33,7 @@ class CommonTests {
 //        testStreamMin();
 //        testBigDecimal();
 //        testSnowflake();
+        testPredicate();
     }
 
     private static void commonTest() {
@@ -96,5 +99,14 @@ class CommonTests {
 
     private static void testSnowflake() {
         System.out.println(IdUtil.getSnowflake(0, 1).nextId());
+    }
+
+    private static void testPredicate() {
+        System.out.println(executorPredicate().test(new Student()));
+        System.out.println(executorPredicate().test(null));
+    }
+
+    private static Predicate<Student> executorPredicate() {
+        return Objects::isNull;
     }
 }

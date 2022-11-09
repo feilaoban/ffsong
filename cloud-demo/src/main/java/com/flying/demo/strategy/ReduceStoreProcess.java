@@ -5,23 +5,22 @@ import org.springframework.stereotype.Component;
 /**
  * @Author songfeifei
  * @Date 2022/11/8 20:34
- * @Description
+ * @Description 减库存
  */
 @Component
-public class RetailBanana extends AbstractRetailOrder {
+public class ReduceStoreProcess extends AbstractOrderProcess {
 
     public int getOrder() {
         return 2;
     }
 
     @Override
-    public String method1() {
-        return "banana:method1";
+    public String onSaveSuccess() {
+        return "ReduceStore - 减库存";
     }
 
     @Override
-    public String method2() {
-        return "banana:method2";
+    public String onCancel() {
+        return "cancel - 加库存";
     }
-
 }

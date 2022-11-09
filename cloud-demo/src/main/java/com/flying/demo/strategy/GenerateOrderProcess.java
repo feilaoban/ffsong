@@ -8,20 +8,19 @@ import org.springframework.stereotype.Component;
  * @Description
  */
 @Component
-public class RetailApple extends AbstractRetailOrder {
+public class GenerateOrderProcess extends AbstractOrderProcess {
 
     public int getOrder() {
-        return 1;
+        return 3;
     }
 
     @Override
-    public String method1() {
-        return "apple:method1";
+    public String onSaveSuccess() {
+        return "GenerateOrder - 生成订单";
     }
 
     @Override
-    public String method2() {
-        return "apple:method2";
+    public String onCancel() {
+        return "GenerateOrder - 取消订单";
     }
-
 }

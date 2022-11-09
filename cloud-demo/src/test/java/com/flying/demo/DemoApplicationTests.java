@@ -1,39 +1,46 @@
 package com.flying.demo;
 
-import com.flying.demo.strategy.IRetailOrder;
-import com.flying.demo.strategy.handler.RetailOrderHandler;
+import com.flying.demo.strategy.CheckStoreProcess;
+import com.flying.demo.strategy.handler.OrderProcessHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 class DemoApplicationTests {
 
     @Autowired
-    RetailOrderHandler retailOrderHandler;
+    OrderProcessHandler orderProcessHandler;
 
     @Test
     void contextLoads() {
     }
 
     @Test
-    void RetailOrderTest() {
-        List<IRetailOrder> retailOrderList = retailOrderHandler.getRetailOrderList();
-        for (IRetailOrder retailOrder : retailOrderList) {
-            System.out.println(retailOrder.method1());
-            System.out.println(retailOrder.method2());
-            System.out.println("order = " + retailOrder.getOrder());
-        }
-        /*  orange:method1
-            orange:method2
-            order = -1
-            apple:method1
-            apple:method2
+    void OrderProcessSuccessTest() {
+        orderProcessHandler.doOnSaveSuccessProcess();
+        /*  CheckStore - 校验库存
             order = 1
-            banana:method1
-            banana:method2
-            order = 2       */
+            ReduceStore - 减库存
+            order = 2
+            GenerateOrder - 生成订单
+            order = 3      */
+    }
+
+    @Test
+    void OrderProcessCancelTest() {
+        orderProcessHandler.doOnCancelProcess();
+        /*  default : cancel
+            order = 1
+            cancel - 加库存
+            order = 2
+            GenerateOrder - 取消订单
+            order = 3      */
+    }
+
+    @Test
+    void OrderProcessTest1() {
+        CheckStoreProcess checkStore = new CheckStoreProcess();
+        System.out.println(checkStore.onSaveSuccess());  // CheckStore - 校验库存
     }
 }

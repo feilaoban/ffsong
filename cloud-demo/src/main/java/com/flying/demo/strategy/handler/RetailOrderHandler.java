@@ -15,7 +15,12 @@ import java.util.List;
 /**
  * @Author songfeifei
  * @Date 2022/11/8 20:49
- * @Description
+ * @Description 策略处理类
+ * <p>
+ * 当一个类实现了这个接口之后，这个类就可以方便的获得ApplicationContext对象（spring上下文），
+ * Spring发现某个Bean实现了ApplicationContextAware接口，Spring容器会在创建该Bean之后，
+ * 自动调用该Bean的setApplicationContext（参数）方法，调用该方法时，会将容器本身ApplicationContext对象作为参数传递给该方法。
+ * </p>
  */
 @Component
 public class RetailOrderHandler implements ApplicationContextAware {

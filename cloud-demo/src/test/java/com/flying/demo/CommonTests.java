@@ -5,13 +5,13 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.flying.demo.handler.CaseConversionHandler;
 import com.flying.demo.pojo.entity.Student;
-import com.google.common.collect.Lists;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,7 +24,9 @@ import java.util.stream.Collectors;
  */
 class CommonTests {
 
-    public static void main(String[] args) throws IllegalAccessException {
+    private static int b = 0;
+
+    public static void main(String[] args) throws IllegalAccessException, InterruptedException {
         //commonTest();
 //        testRegular();
 //        test2ListToMap();
@@ -33,7 +35,8 @@ class CommonTests {
 //        testStreamMin();
 //        testBigDecimal();
 //        testSnowflake();
-        testPredicate();
+//        testPredicate();
+        testAtomicInteger();
     }
 
     private static void commonTest() {
@@ -108,5 +111,30 @@ class CommonTests {
 
     private static Predicate<Student> executorPredicate() {
         return Objects::isNull;
+    }
+
+    private static void testAtomicInteger() throws InterruptedException {
+        AtomicInteger a = new AtomicInteger(0);
+        AtomicInteger c = new AtomicInteger();
+        // 循环创建10个线程，每个线程执行1000次自增操作
+        for (int x = 0; x < 10; x++) {
+            Thread thread = new Thread(() -> {
+                // y设置大一点，确保在当前线程跑完前，能够进下个线程，从而出现读取b时出现线程安全问题
+                for (int y = 0; y < 1000; y++) {
+                    a.getAndIncrement();
+                    b++;
+                    c.getAndAdd(cIncrement());
+                }
+            });
+            thread.start();
+        }
+        // sleep 3秒，等待所有线程执行完毕
+        Thread.sleep(3000);
+        System.out.println("a=" + a.get() + ", b=" + b + ", c=" + c);
+    }
+
+    private static int cIncrement() {
+        int c = 0;
+        return ++c;
     }
 }

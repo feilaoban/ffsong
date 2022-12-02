@@ -1,6 +1,7 @@
 package com.flying.demo;
 
 import java.util.concurrent.*;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 /**
@@ -11,7 +12,9 @@ import java.util.function.Supplier;
 public class CompletableFutureTests {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //testSupplyAsync();
-        testFutureThread();
+        //testFutureThread();
+        //testWhenComplete();
+        testWhenCompleteAsync();
     }
 
     private static void testSupplyAsync() {
@@ -59,5 +62,69 @@ public class CompletableFutureTests {
 
         Thread.sleep(1000);
         threadPool.shutdown();
+    }
+
+    /**
+     * whenComplete()测试
+     * 注意在任务结束前后，后续行为使用的是哪个线程
+     * @throws InterruptedException
+     */
+    private static void testWhenComplete() throws InterruptedException {
+        System.out.println("main thread ：" + Thread.currentThread().getName());
+        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 10, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
+        // 一个3秒的任务
+        Supplier<String> supplier = () -> {
+            try {
+                Thread.sleep(3000);
+                System.out.println("supplier thread : " + Thread.currentThread().getName());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "";
+        };
+        // 任务完成后的行为
+        BiConsumer<Object, Throwable> action = (result, exception) -> {
+            System.out.println("action thread : " + Thread.currentThread().getName());
+        };
+
+        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(supplier, threadPool);
+        // 睡1秒，此时任务还结束，调用whenComplete()方法，将会和supplier的执行使用相同的线程
+        Thread.sleep(1000);
+        CompletableFuture<String> future2 = future1.whenComplete(action);
+        // 睡5秒，此时任务结束，调用whenComplete()方法，只能使用本方法的线程
+        Thread.sleep(5000);
+        CompletableFuture<String> future3 = future1.whenComplete(action);
+    }
+
+    /**
+     * whenCompleteAsync()测试
+     * 任务结束后，从线程池中取一个线程或新建线程执行后续行为
+     * @throws InterruptedException
+     */
+    private static void testWhenCompleteAsync() throws InterruptedException {
+        System.out.println("main thread ：" + Thread.currentThread().getName());
+        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 10, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
+        // 一个3秒的任务
+        Supplier<String> supplier = () -> {
+            try {
+                Thread.sleep(3000);
+                System.out.println("supplier thread : " + Thread.currentThread().getName());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "";
+        };
+        // 任务完成后的行为
+        BiConsumer<Object, Throwable> action = (result, exception) -> {
+            System.out.println("action thread : " + Thread.currentThread().getName());
+        };
+
+        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(supplier, threadPool);
+        // 睡1秒，使用默认线程池
+        Thread.sleep(1000);
+        CompletableFuture<String> future2 = future1.whenCompleteAsync(action);
+        // 睡5秒，使用指定的线程池
+        Thread.sleep(5000);
+        CompletableFuture<String> future3 = future1.whenCompleteAsync(action, threadPool);
     }
 }

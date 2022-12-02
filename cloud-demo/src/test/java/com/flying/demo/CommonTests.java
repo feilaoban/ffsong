@@ -1,12 +1,15 @@
 package com.flying.demo;
 
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.flying.demo.handler.CaseConversionHandler;
 import com.flying.demo.pojo.entity.Student;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +39,8 @@ class CommonTests {
 //        testBigDecimal();
 //        testSnowflake();
 //        testPredicate();
-        testAtomicInteger();
+//        testAtomicInteger();
+        testDiffLocalDateTime();
     }
 
     private static void commonTest() {
@@ -136,5 +140,11 @@ class CommonTests {
     private static int cIncrement() {
         int c = 0;
         return ++c;
+    }
+
+    private static void testDiffLocalDateTime() {
+        LocalDateTime start = LocalDateTime.parse("2022-11-30T11:42:00");
+        LocalDateTime end = LocalDateTime.now();
+        System.out.println("相差天数：" + LocalDateTimeUtil.between(start, end, ChronoUnit.DAYS));
     }
 }

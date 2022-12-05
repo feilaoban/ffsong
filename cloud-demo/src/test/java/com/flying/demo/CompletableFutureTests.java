@@ -75,7 +75,7 @@ public class CompletableFutureTests {
         // 一个3秒的任务
         Supplier<String> supplier = () -> {
             try {
-                Thread.sleep(3000);
+                Thread.sleep(5000);
                 System.out.println("supplier thread : " + Thread.currentThread().getName());
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -88,7 +88,7 @@ public class CompletableFutureTests {
         };
 
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(supplier, threadPool);
-        // 睡1秒，此时任务还结束，调用whenComplete()方法，将会和supplier的执行使用相同的线程
+        // 睡1秒，此时任务还未结束，任务结束后会立即调用whenComplete()方法，并且和supplier的执行使用相同的线程
         Thread.sleep(1000);
         CompletableFuture<String> future2 = future1.whenComplete(action);
         // 睡5秒，此时任务结束，调用whenComplete()方法，只能使用本方法的线程

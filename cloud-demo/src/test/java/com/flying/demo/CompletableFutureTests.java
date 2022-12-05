@@ -2,6 +2,7 @@ package com.flying.demo;
 
 import java.util.concurrent.*;
 import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -14,7 +15,8 @@ public class CompletableFutureTests {
         //testSupplyAsync();
         //testFutureThread();
         //testWhenComplete();
-        testWhenCompleteAsync();
+        //testWhenCompleteAsync();
+        testThenApply();
     }
 
     private static void testSupplyAsync() {
@@ -75,8 +77,8 @@ public class CompletableFutureTests {
         // 一个3秒的任务
         Supplier<String> supplier = () -> {
             try {
-                Thread.sleep(5000);
-                System.out.println("supplier thread : " + Thread.currentThread().getName());
+                Thread.sleep(3000);
+                System.out.println(System.currentTimeMillis() + " - supplier thread : " + Thread.currentThread().getName());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -84,14 +86,14 @@ public class CompletableFutureTests {
         };
         // 任务完成后的行为
         BiConsumer<Object, Throwable> action = (result, exception) -> {
-            System.out.println("action thread : " + Thread.currentThread().getName());
+            System.out.println(System.currentTimeMillis() + " - action thread : " + Thread.currentThread().getName());
         };
 
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(supplier, threadPool);
         // 睡1秒，此时任务还未结束，任务结束后会立即调用whenComplete()方法，并且和supplier的执行使用相同的线程
         Thread.sleep(1000);
         CompletableFuture<String> future2 = future1.whenComplete(action);
-        // 睡5秒，此时任务结束，调用whenComplete()方法，只能使用本方法的线程
+        // 睡5秒，此时任务结束，调用whenComplete()方法，只能使用本方法的线程（从异步开始执行算起，加上之前睡1秒，任务执行要3秒，也就是任务完成后5+1-3=3秒后打印feature3）
         Thread.sleep(5000);
         CompletableFuture<String> future3 = future1.whenComplete(action);
     }
@@ -102,7 +104,7 @@ public class CompletableFutureTests {
      * @throws InterruptedException
      */
     private static void testWhenCompleteAsync() throws InterruptedException {
-        System.out.println("main thread ：" + Thread.currentThread().getName());
+        System.out.println(System.currentTimeMillis() + " - main thread ：" + Thread.currentThread().getName());
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 10, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
         // 一个3秒的任务
         Supplier<String> supplier = () -> {
@@ -126,5 +128,40 @@ public class CompletableFutureTests {
         // 睡5秒，使用指定的线程池
         Thread.sleep(5000);
         CompletableFuture<String> future3 = future1.whenCompleteAsync(action, threadPool);
+    }
+
+    private static void testThenApply() throws InterruptedException, ExecutionException {
+        System.out.println(System.currentTimeMillis() + " - main thread ：" + Thread.currentThread().getName());
+        ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 10, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
+        // 一个3秒的任务
+        Supplier<Integer> supplier = () -> {
+            try {
+                Thread.sleep(3000);
+                System.out.println(System.currentTimeMillis() + " - supplier thread : " + Thread.currentThread().getName());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return 5;
+        };
+        // 一个后继任务
+        Function<Integer, String> function = (result -> {
+            try {
+                Thread.sleep(3000);
+                System.out.println(System.currentTimeMillis() + " - function thread : " + Thread.currentThread().getName());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "结果是：" + result;
+        });
+
+        CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(supplier, threadPool);
+        // 睡1秒，此时任务还未结束，任务结束后会立即调用thenApply()方法，并且和supplier的执行使用相同的线程
+        //Thread.sleep(1000);
+        CompletableFuture<String> future2 = future1.thenApply(function);
+        System.out.println(future2.get());
+        // 睡5秒，此时任务结束，调用thenApply()方法，只能使用本方法的线程（根据执行时间得出thenApply是阻塞的）
+        Thread.sleep(5000);
+        CompletableFuture<String> future3 = future1.thenApply(function);
+        System.out.println(future3.get());
     }
 }

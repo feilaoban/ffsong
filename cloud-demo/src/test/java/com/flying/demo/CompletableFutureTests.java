@@ -156,10 +156,10 @@ public class CompletableFutureTests {
 
         CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(supplier, threadPool);
         // 睡1秒，此时任务还未结束，任务结束后会立即调用thenApply()方法，并且和supplier的执行使用相同的线程
-        //Thread.sleep(1000);
+        Thread.sleep(1000);
         CompletableFuture<String> future2 = future1.thenApply(function);
         System.out.println(future2.get());
-        // 睡5秒，此时任务结束，调用thenApply()方法，只能使用本方法的线程（根据执行时间得出thenApply是阻塞的）
+        // 睡5秒，此时任务结束，调用thenApply()方法，只能使用本方法的线程（根据执行时间得出thenApply是同步的）
         Thread.sleep(5000);
         CompletableFuture<String> future3 = future1.thenApply(function);
         System.out.println(future3.get());

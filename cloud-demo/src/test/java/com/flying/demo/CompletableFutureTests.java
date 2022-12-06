@@ -1,5 +1,6 @@
 package com.flying.demo;
 
+import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -16,7 +17,8 @@ public class CompletableFutureTests {
         //testFutureThread();
         //testWhenComplete();
         //testWhenCompleteAsync();
-        testThenApply();
+        //testThenApply();
+        testHandle();
     }
 
     private static void testSupplyAsync() {
@@ -47,12 +49,13 @@ public class CompletableFutureTests {
 
     /**
      * 测试CompletableFuture的默认线程
+     *
      * @throws ExecutionException
      * @throws InterruptedException
      */
     private static void testFutureThread() throws ExecutionException, InterruptedException {
         Supplier<String> supplier = () -> {
-          return Thread.currentThread().getName();
+            return Thread.currentThread().getName();
         };
         // 不指定线程池，使用默认线程池
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(supplier);
@@ -69,6 +72,7 @@ public class CompletableFutureTests {
     /**
      * whenComplete()测试
      * 注意在任务结束前后，后续行为使用的是哪个线程
+     *
      * @throws InterruptedException
      */
     private static void testWhenComplete() throws InterruptedException {
@@ -101,6 +105,7 @@ public class CompletableFutureTests {
     /**
      * whenCompleteAsync()测试
      * 任务结束后，从线程池中取一个线程或新建线程执行后续行为
+     *
      * @throws InterruptedException
      */
     private static void testWhenCompleteAsync() throws InterruptedException {
@@ -130,6 +135,15 @@ public class CompletableFutureTests {
         CompletableFuture<String> future3 = future1.whenCompleteAsync(action, threadPool);
     }
 
+    /**
+     * thenApply()测试
+     * 当一个线程依赖另一个线程时，可以使用 thenApply 方法来把这两个线程串行化。
+     * 第二个任务依赖第一个任务的结果。
+     * 第一个任务出现异常，则不执行 thenApply 方法
+     *
+     * @throws InterruptedException
+     * @throws ExecutionException
+     */
     private static void testThenApply() throws InterruptedException, ExecutionException {
         System.out.println(System.currentTimeMillis() + " - main thread ：" + Thread.currentThread().getName());
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 10, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
@@ -163,5 +177,30 @@ public class CompletableFutureTests {
         Thread.sleep(5000);
         CompletableFuture<String> future3 = future1.thenApply(function);
         System.out.println(future3.get());
+    }
+
+    /**
+     * handle()测试
+     * handle 是执行任务完成时对结果的处理。
+     * handle 方法和 thenApply 方法处理方式基本一样。不同的是 handle 是在任务完成后再执行，还可以处理异常的任务。
+     * thenApply 只可以执行正常的任务，任务出现异常则不执行 thenApply 方法
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private static void testHandle() throws ExecutionException, InterruptedException {
+        CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
+            //throw new  RuntimeException("Supplier运行异常");
+            return 0;
+        }).handle((param, throwable) -> {
+            String result;
+            if (Objects.isNull(throwable)) {
+                result = "无异常，param = " + param;
+            } else {
+                result = "异常信息：" + throwable.getMessage();
+            }
+            return result;
+        });
+        System.out.println(future.get());
     }
 }

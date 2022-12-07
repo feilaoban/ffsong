@@ -1,6 +1,7 @@
 package com.flying.demo;
 
 import java.util.Objects;
+import java.util.Random;
 import java.util.concurrent.*;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -15,13 +16,16 @@ public class CompletableFutureTests {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         //testSupplyAsync();
         //testFutureThread();
+        testRunAndSupplyAsync();
         //testWhenComplete();
         //testWhenCompleteAsync();
         //testThenApply();
-        testHandle();
+        //testHandle();
+        //testThenAccept();
+        //testThenRun();
     }
 
-    private static void testSupplyAsync() {
+    private static void testSupplyAsync() throws ExecutionException, InterruptedException {
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
             try {
                 Thread.sleep(3000);
@@ -37,19 +41,14 @@ public class CompletableFutureTests {
         });
         CompletableFuture<Void> combineFuture = CompletableFuture.allOf(future1, future2);
 //        combineFuture.join();
-        try {
-            combineFuture.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        combineFuture.get();
         System.out.println("future1: " + future1.isDone() + " future2: " + future2.isDone());
     }
 
     /**
      * 测试CompletableFuture的默认线程
-     *
+     * 没有指定Executor的方法会使用ForkJoinPool.commonPool() 作为它的线程池执行异步代码;
+     * 如果指定线程池，则使用指定的线程池运行。
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -67,6 +66,22 @@ public class CompletableFutureTests {
 
         Thread.sleep(1000);
         threadPool.shutdown();
+    }
+
+    /**
+     * runAsync() & supplyAsync()测试
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private static void testRunAndSupplyAsync() throws ExecutionException, InterruptedException {
+        CompletableFuture<Void> future1 = CompletableFuture.runAsync(() -> {
+            System.out.println("runAsync默认线程池");
+        });
+        future1.get();
+        CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> {
+            return "supplyAsync默认线程池";
+        });
+        System.out.println(future2.get());
     }
 
     /**
@@ -202,5 +217,32 @@ public class CompletableFutureTests {
             return result;
         });
         System.out.println(future.get());
+    }
+
+    /**
+     * testThenAccept()测试
+     * 接收任务的处理结果，并消费处理，无返回结果。
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private static void testThenAccept() throws ExecutionException, InterruptedException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> new Random().nextInt(10)).thenAccept(System.out::println);
+        future.get();
+    }
+
+    /**
+     * testThenRun()测试
+     * 跟 thenAccept 方法不一样的是，不关心任务的处理结果。只要上面的任务执行完成，就开始执行 thenRun
+     * 【注】主要看函数式接口的方法出入参数
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private static void testThenRun() throws ExecutionException, InterruptedException {
+        CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> new Random().nextInt(10)).thenRun(() -> {
+            System.out.println("thenRun ...");
+        });
+        future.get();
     }
 }

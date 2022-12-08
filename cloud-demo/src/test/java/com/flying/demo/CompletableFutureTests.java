@@ -25,7 +25,8 @@ public class CompletableFutureTests {
         //thenRun();
         //thenCombine();
         //thenAcceptBoth();
-        applyToEither();
+        //applyToEither();
+        acceptEither();
     }
 
     private static void testSupplyAsync() throws ExecutionException, InterruptedException {
@@ -319,7 +320,7 @@ public class CompletableFutureTests {
 
     /**
      * 10、applyToEither()测试
-     * 两个CompletionStage，谁执行返回的结果快，就用那个CompletionStage的结果进行下一步的转化操作。
+     * 两个CompletionStage，谁执行返回的结果快，就用那个CompletionStage的结果进行下一步的处理。
      *
      * @throws ExecutionException
      * @throws InterruptedException
@@ -347,5 +348,36 @@ public class CompletableFutureTests {
 
         CompletableFuture<Integer> result = future1.applyToEither(future2, t -> t * 2);
         System.out.println(result.get());
+    }
+
+    /**
+     * 11、acceptEither()测试
+     * 两个CompletionStage，谁执行返回的结果快，就用那个CompletionStage的结果进行下一步的消费。
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private static void acceptEither() throws ExecutionException, InterruptedException {
+        CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("future1=" + 1);
+            return 1;
+        });
+
+        CompletableFuture<Integer> future2 = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("future2=" + 3);
+            return 3;
+        });
+
+        future1.acceptEither(future2, t -> System.out.println("result=" + t)).get();
     }
 }

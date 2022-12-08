@@ -26,7 +26,8 @@ public class CompletableFutureTests {
         //thenCombine();
         //thenAcceptBoth();
         //applyToEither();
-        acceptEither();
+        //acceptEither();
+        runAfterEither();
     }
 
     private static void testSupplyAsync() throws ExecutionException, InterruptedException {
@@ -379,5 +380,36 @@ public class CompletableFutureTests {
         });
 
         future1.acceptEither(future2, t -> System.out.println("result=" + t)).get();
+    }
+
+    /**
+     * 12、runAfterEither()测试
+     * 两个CompletionStage，任何一个完成了都会执行下一步的操作（Runnable）
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private static void runAfterEither() throws ExecutionException, InterruptedException {
+        CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("future1=" + 1);
+            return 1;
+        });
+
+        CompletableFuture<Integer> future2 = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("future2=" + 3);
+            return 3;
+        });
+
+        future1.runAfterEither(future2, () -> System.out.println("上面两个任务已经有一个完成了···")).get();
     }
 }

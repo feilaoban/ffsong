@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  */
 public class CompletableFutureTests {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        //supplyAsync();
+        //testSupplyAsync();
         //testFutureThread();
         //testRunAndSupplyAsync();
         //whenComplete();
@@ -24,10 +24,11 @@ public class CompletableFutureTests {
         //thenAccept();
         //thenRun();
         //thenCombine();
-        thenAcceptBoth();
+        //thenAcceptBoth();
+        applyToEither();
     }
 
-    private static void supplyAsync() throws ExecutionException, InterruptedException {
+    private static void testSupplyAsync() throws ExecutionException, InterruptedException {
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
             try {
                 Thread.sleep(3000);
@@ -72,7 +73,7 @@ public class CompletableFutureTests {
     }
 
     /**
-     * runAsync() & supplyAsync()测试
+     * 1、runAsync() & supplyAsync()测试
      *
      * @throws ExecutionException
      * @throws InterruptedException
@@ -89,7 +90,7 @@ public class CompletableFutureTests {
     }
 
     /**
-     * whenComplete()测试
+     * 2、whenComplete()测试
      * 注意在任务结束前后，后续行为使用的是哪个线程
      *
      * @throws InterruptedException
@@ -122,7 +123,7 @@ public class CompletableFutureTests {
     }
 
     /**
-     * whenCompleteAsync()测试
+     * 3、whenCompleteAsync()测试
      * 任务结束后，从线程池中取一个线程或新建线程执行后续行为
      *
      * @throws InterruptedException
@@ -155,7 +156,7 @@ public class CompletableFutureTests {
     }
 
     /**
-     * thenApply()测试
+     * 4、thenApply()测试
      * 当一个线程依赖另一个线程时，可以使用 thenApply 方法来把这两个线程串行化。
      * 第二个任务依赖第一个任务的结果。
      * 第一个任务出现异常，则不执行 thenApply 方法
@@ -199,7 +200,7 @@ public class CompletableFutureTests {
     }
 
     /**
-     * handle()测试
+     * 5、handle()测试
      * handle 是执行任务完成时对结果的处理。
      * handle 方法和 thenApply 方法处理方式基本一样。不同的是 handle 是在任务完成后再执行，还可以处理异常的任务。
      * thenApply 只可以执行正常的任务，任务出现异常则不执行 thenApply 方法
@@ -224,7 +225,7 @@ public class CompletableFutureTests {
     }
 
     /**
-     * thenAccept()测试
+     * 6、thenAccept()测试
      * 接收任务的处理结果，并消费处理，无返回结果。
      *
      * @throws ExecutionException
@@ -236,7 +237,7 @@ public class CompletableFutureTests {
     }
 
     /**
-     * thenRun()测试
+     * 7、thenRun()测试
      * 跟 thenAccept 方法不一样的是，不关心任务的处理结果。只要上面的任务执行完成，就开始执行 thenRun
      * 【注】主要看函数式接口的方法出入参数
      *
@@ -251,7 +252,7 @@ public class CompletableFutureTests {
     }
 
     /**
-     * thenCombine()测试
+     * 8、thenCombine()测试
      * thenCombine 会把两个 CompletionStage 的任务都执行完成后，把两个任务的结果一块交给 thenCombine 来处理。
      *
      * @throws ExecutionException
@@ -279,8 +280,9 @@ public class CompletableFutureTests {
     }
 
     /**
-     * thenAcceptBoth()测试
+     * 9、thenAcceptBoth()测试
      * 当两个CompletionStage都执行完成后，把结果一块交给thenAcceptBoth来进行消费
+     *
      * @throws InterruptedException
      */
     private static void thenAcceptBoth() throws InterruptedException, ExecutionException {
@@ -305,7 +307,7 @@ public class CompletableFutureTests {
         });
         //future1.thenAcceptBoth(future2, (t, u) -> System.out.println("future1=" + t + ",future2=" + u));
         /*
-         【注意】最后一定要get()，否则获取不到future1 和 future2的结果
+         【注意】最后一定要get()，否则获取不到 CompletableFuture<T> 的结果
          查看get()源码：Waits if necessary for this future to complete, and then returns its result.
          翻译：如果需要，等待此future完成，然后返回其结果。
          */
@@ -313,6 +315,37 @@ public class CompletableFutureTests {
         //result.get();
         // 等价于
         future1.thenAcceptBoth(future2, (t, u) -> System.out.println("future1=" + t + ",future2=" + u)).get();
+    }
 
+    /**
+     * 10、applyToEither()测试
+     * 两个CompletionStage，谁执行返回的结果快，就用那个CompletionStage的结果进行下一步的转化操作。
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private static void applyToEither() throws ExecutionException, InterruptedException {
+        CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("future1=" + 1);
+            return 1;
+        });
+
+        CompletableFuture<Integer> future2 = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("future2=" + 3);
+            return 3;
+        });
+
+        CompletableFuture<Integer> result = future1.applyToEither(future2, t -> t * 2);
+        System.out.println(result.get());
     }
 }

@@ -14,18 +14,19 @@ import java.util.function.Supplier;
  */
 public class CompletableFutureTests {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        //testSupplyAsync();
+        //supplyAsync();
         //testFutureThread();
-        testRunAndSupplyAsync();
-        //testWhenComplete();
-        //testWhenCompleteAsync();
-        //testThenApply();
-        //testHandle();
-        //testThenAccept();
-        //testThenRun();
+        //testRunAndSupplyAsync();
+        //whenComplete();
+        //whenCompleteAsync();
+        //thenApply();
+        //handle();
+        //thenAccept();
+        //thenRun();
+        thenCombine();
     }
 
-    private static void testSupplyAsync() throws ExecutionException, InterruptedException {
+    private static void supplyAsync() throws ExecutionException, InterruptedException {
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
             try {
                 Thread.sleep(3000);
@@ -90,7 +91,7 @@ public class CompletableFutureTests {
      *
      * @throws InterruptedException
      */
-    private static void testWhenComplete() throws InterruptedException {
+    private static void whenComplete() throws InterruptedException {
         System.out.println("main thread ：" + Thread.currentThread().getName());
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 10, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
         // 一个3秒的任务
@@ -123,7 +124,7 @@ public class CompletableFutureTests {
      *
      * @throws InterruptedException
      */
-    private static void testWhenCompleteAsync() throws InterruptedException {
+    private static void whenCompleteAsync() throws InterruptedException {
         System.out.println(System.currentTimeMillis() + " - main thread ：" + Thread.currentThread().getName());
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 10, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
         // 一个3秒的任务
@@ -159,7 +160,7 @@ public class CompletableFutureTests {
      * @throws InterruptedException
      * @throws ExecutionException
      */
-    private static void testThenApply() throws InterruptedException, ExecutionException {
+    private static void thenApply() throws InterruptedException, ExecutionException {
         System.out.println(System.currentTimeMillis() + " - main thread ：" + Thread.currentThread().getName());
         ThreadPoolExecutor threadPool = new ThreadPoolExecutor(2, 10, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
         // 一个3秒的任务
@@ -203,7 +204,7 @@ public class CompletableFutureTests {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    private static void testHandle() throws ExecutionException, InterruptedException {
+    private static void handle() throws ExecutionException, InterruptedException {
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> {
             //throw new  RuntimeException("Supplier运行异常");
             return 0;
@@ -220,29 +221,42 @@ public class CompletableFutureTests {
     }
 
     /**
-     * testThenAccept()测试
+     * thenAccept()测试
      * 接收任务的处理结果，并消费处理，无返回结果。
      *
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    private static void testThenAccept() throws ExecutionException, InterruptedException {
+    private static void thenAccept() throws ExecutionException, InterruptedException {
         CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> new Random().nextInt(10)).thenAccept(System.out::println);
         future.get();
     }
 
     /**
-     * testThenRun()测试
+     * thenRun()测试
      * 跟 thenAccept 方法不一样的是，不关心任务的处理结果。只要上面的任务执行完成，就开始执行 thenRun
      * 【注】主要看函数式接口的方法出入参数
      *
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    private static void testThenRun() throws ExecutionException, InterruptedException {
+    private static void thenRun() throws ExecutionException, InterruptedException {
         CompletableFuture<Void> future = CompletableFuture.supplyAsync(() -> new Random().nextInt(10)).thenRun(() -> {
             System.out.println("thenRun ...");
         });
         future.get();
+    }
+
+    /**
+     * thenCombine()测试
+     * thenCombine 会把两个 CompletionStage 的任务都执行完成后，把两个任务的结果一块交给 thenCombine 来处理。
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private static void thenCombine() throws ExecutionException, InterruptedException {
+        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> "hello1");
+        CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> "hello2");
+        CompletableFuture<String> result = future1.thenCombine(future2, (t, u) -> t + " " + u);
+        System.out.println(result.get());   // hello1 hello2
     }
 }

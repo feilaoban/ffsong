@@ -28,7 +28,8 @@ public class CompletableFutureTests {
         //applyToEither();
         //acceptEither();
         //runAfterEither();
-        runAfterBoth();
+        //runAfterBoth();
+        thenCompose();
     }
 
     private static void testSupplyAsync() throws ExecutionException, InterruptedException {
@@ -444,5 +445,33 @@ public class CompletableFutureTests {
         });
 
         future1.runAfterBoth(future2, () -> System.out.println("上面两个任务都完成了")).get();
+    }
+
+    /**
+     * thenCompose()测试
+     * thenCompose 方法允许你对两个 CompletionStage 进行流水线操作，第一个操作完成时，将其结果作为参数传递给第二个操作（Function）
+     *
+     * 注意和thenApply()的区别，入参不同
+     * thenApply()是一个对一个已完成的stage或者说CompletableFuture的的返回值进行计算、操作；
+     * thenCompose()是对另一个CompletableFuture进行计算、操作.
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    private static void thenCompose() throws ExecutionException, InterruptedException {
+        CompletableFuture<Integer> future = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("future1=" + 1);
+            return 1;
+        }).thenCompose(param -> CompletableFuture.supplyAsync(() -> {
+            int t = param * 2;
+            System.out.println("t2=" + t);
+            return t;
+        }));
+        System.out.println("thenCompose result : " + future.get());
     }
 }

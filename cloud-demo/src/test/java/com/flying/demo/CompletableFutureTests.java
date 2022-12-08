@@ -23,7 +23,8 @@ public class CompletableFutureTests {
         //handle();
         //thenAccept();
         //thenRun();
-        thenCombine();
+        //thenCombine();
+        thenAcceptBoth();
     }
 
     private static void supplyAsync() throws ExecutionException, InterruptedException {
@@ -50,6 +51,7 @@ public class CompletableFutureTests {
      * 测试CompletableFuture的默认线程
      * 没有指定Executor的方法会使用ForkJoinPool.commonPool() 作为它的线程池执行异步代码;
      * 如果指定线程池，则使用指定的线程池运行。
+     *
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -71,6 +73,7 @@ public class CompletableFutureTests {
 
     /**
      * runAsync() & supplyAsync()测试
+     *
      * @throws ExecutionException
      * @throws InterruptedException
      */
@@ -113,7 +116,7 @@ public class CompletableFutureTests {
         // 睡1秒，此时任务还未结束，任务结束后会立即调用whenComplete()方法，并且和supplier的执行使用相同的线程
         Thread.sleep(1000);
         CompletableFuture<String> future2 = future1.whenComplete(action);
-        // 睡5秒，此时任务结束，调用whenComplete()方法，只能使用本方法的线程（从异步开始执行算起，加上之前睡1秒，任务执行要3秒，也就是任务完成后5+1-3=3秒后打印feature3）
+        // 睡5秒，此时任务结束，调用whenComplete()方法，只能使用本方法的线程（从异步开始执行算起，加上之前睡1秒，任务执行要3秒，也就是任务完成后5+1-3=3秒后打印future3）
         Thread.sleep(5000);
         CompletableFuture<String> future3 = future1.whenComplete(action);
     }
@@ -250,13 +253,66 @@ public class CompletableFutureTests {
     /**
      * thenCombine()测试
      * thenCombine 会把两个 CompletionStage 的任务都执行完成后，把两个任务的结果一块交给 thenCombine 来处理。
+     *
      * @throws ExecutionException
      * @throws InterruptedException
      */
     private static void thenCombine() throws ExecutionException, InterruptedException {
-        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> "hello1");
-        CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> "hello2");
+        CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "hello1";
+        });
+        CompletableFuture<String> future2 = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return "hello2";
+        });
         CompletableFuture<String> result = future1.thenCombine(future2, (t, u) -> t + " " + u);
         System.out.println(result.get());   // hello1 hello2
+    }
+
+    /**
+     * thenAcceptBoth()测试
+     * 当两个CompletionStage都执行完成后，把结果一块交给thenAcceptBoth来进行消费
+     * @throws InterruptedException
+     */
+    private static void thenAcceptBoth() throws InterruptedException, ExecutionException {
+        CompletableFuture<Integer> future1 = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("future1=" + 3);
+            return 3;
+        });
+
+        CompletableFuture<Integer> future2 = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("future2=" + 3);
+            return 3;
+        });
+        //future1.thenAcceptBoth(future2, (t, u) -> System.out.println("future1=" + t + ",future2=" + u));
+        /*
+         【注意】最后一定要get()，否则获取不到future1 和 future2的结果
+         查看get()源码：Waits if necessary for this future to complete, and then returns its result.
+         翻译：如果需要，等待此future完成，然后返回其结果。
+         */
+        //CompletableFuture<Void> result = future1.thenAcceptBoth(future2, (t, u) -> System.out.println("future1=" + t + ",future2=" + u));
+        //result.get();
+        // 等价于
+        future1.thenAcceptBoth(future2, (t, u) -> System.out.println("future1=" + t + ",future2=" + u)).get();
+
     }
 }

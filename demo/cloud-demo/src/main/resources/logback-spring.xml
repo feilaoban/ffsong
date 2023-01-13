@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="10 seconds">
 
-	<property name="project_name" value="ffsong"/>
+	<property name="project_name" value="cloud-demo"/>
 	<!--开发环境:打印控制台-->
 	<springProfile name="local">
-		<property name="log.path" value="../logs/${project_name}"/>
+<!--		<property name="log.path" value="../logs/${project_name}"/>-->
+		<property name="log.path" value="D:/logs/ffsong/logs/${project_name}"/>
 	</springProfile>
 	<springProfile name="dev">
 		<property name="log.path" value="/home/tomcat/logs/${project_name}"/>

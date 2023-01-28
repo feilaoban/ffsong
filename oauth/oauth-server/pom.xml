@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>oauth</artifactId>
+        <groupId>com.flying</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>oauth-server</artifactId>
+
+    <description>认证服务</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+<!--        数据源的依赖-->
+        <dependency>
+            <groupId>com.flying</groupId>
+            <artifactId>blog-datasource-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
+        </dependency>
+
+<!--       user的feign接口-->
+        <dependency>
+            <groupId>com.flying</groupId>
+            <artifactId>user-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flying</groupId>
+            <artifactId>blog-nacos-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flying</groupId>
+            <artifactId>blog-skywalking-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flying</groupId>
+            <artifactId>blog-redis-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flying</groupId>
+            <artifactId>blog-swagger-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flying</groupId>
+            <artifactId>blog-common-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flying</groupId>
+            <artifactId>blog-monitor-client-starter</artifactId>
+        </dependency>
+
+        <!--灰度规则-->
+        <dependency>
+            <groupId>com.flying</groupId>
+            <artifactId>blog-gray-starter</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.flying</groupId>
+            <artifactId>oauth-social-starter</artifactId>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <finalName>blog-oauth-server</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--docker构建插件-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.2.0</version>
+                <configuration>
+                    <!--镜像名称，名称:版本号-->
+                    <imageName>${project.build.finalName}:${project.parent.version}</imageName>
+                    <!--Dockerfile的位置-->
+                    <dockerDirectory>${project.basedir}/src/main/resources</dockerDirectory>
+                    <!--远程服务器的docker地址，需要配置-->
+                    <dockerHost>http://192.168.47.134:2375</dockerHost>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <!--jar包名字-->
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

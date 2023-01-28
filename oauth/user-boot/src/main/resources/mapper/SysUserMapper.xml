@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mugu.blog.user.boot.dao.SysUserMapper">
+    <insert id="addUserConnection" parameterType="com.mugu.blog.user.common.req.SysBindReq">
+		insert into sys_userconnection(userId,providerId,providerUserId,rank,displayName,profileUrl,imageUrl)
+		values(#{userId},#{providerId},#{providerUserId},1,#{displayName},#{profileUrl},#{imageUrl})
+	</insert>
+
+	<insert id="addSysUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+		insert into sys_user(user_id,username,nickname,password,avatar,create_time)
+		values(#{userId},#{username},#{displayName},#{password},#{imageUrl},now())
+	</insert>
+
+	<insert id="addSysRole">
+		insert into sys_user_role(user_id,role_id)
+		values(#{userId},#{roleId})
+	</insert>
+
+	<select id="selectByUserName" resultType="com.mugu.blog.user.common.po.SysUser">
+        select * from sys_user where username=#{username} and status=1
+    </select>
+    <select id="selectRolesByUserId" resultType="com.mugu.blog.user.common.po.SysRole">
+			SELECT
+		id,
+		NAME,
+		CODE,
+	STATUS
+	FROM
+		sys_role sr
+	WHERE
+		sr.STATUS = 1
+		AND EXISTS (
+	SELECT
+		sur.role_id
+	FROM
+		sys_user_role sur
+		INNER JOIN sys_user su ON su.id = sur.user_id
+	WHERE
+		su.id = #{userId}
+		AND sr.id = sur.role_id
+		)
+    </select>
+    <select id="selectByUserId" resultType="com.mugu.blog.user.common.po.SysUser">
+		SELECT
+		id,
+	user_id,
+	username,
+	nickname,
+	avatar,
+	gender,
+	avatar,
+	mobile,
+	email
+FROM
+	sys_user
+WHERE
+	user_id = #{userId}
+	AND STATUS =1
+	</select>
+    <select id="listByUserId" resultType="com.mugu.blog.user.common.po.SysUser">
+			SELECT
+		user_id,
+		username,
+		nickname,
+		avatar,
+		gender,
+		avatar,
+		mobile,
+		email
+	FROM
+		sys_user
+	WHERE
+		STATUS =1
+		and user_id in
+		<foreach collection="list" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+    <select id="selectByProviderUserId" resultType="com.mugu.blog.user.common.po.SysUserConnection">
+		select * from sys_userconnection where providerId=#{providerId} and providerUserId=#{providerUserId}
+	</select>
+</mapper>

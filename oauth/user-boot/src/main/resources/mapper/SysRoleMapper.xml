@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mugu.blog.user.boot.dao.SysRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.mugu.blog.user.common.po.SysRole" >
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="code" property="code" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+                id,
+                name,
+                code,
+                status,
+                create_time,
+                update_time
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.mugu.blog.user.common.po.SysRole">
+        INSERT INTO sys_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != name and '' != name">
+                name,
+            </if>
+            <if test="null != code and '' != code">
+                code,
+            </if>
+            <if test="null != status">
+                status,
+            </if>
+            <if test="null != createTime">
+                create_time,
+            </if>
+            <if test="null != updateTime">
+                update_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != name and '' != name">
+                #{name},
+            </if>
+            <if test="null != code and '' != code">
+                #{code},
+            </if>
+            <if test="null != status">
+                #{status},
+            </if>
+            <if test="null != createTime">
+                #{createTime},
+            </if>
+            <if test="null != updateTime">
+                #{updateTime}
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="delete" >
+        DELETE FROM sys_role
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.mugu.blog.user.common.po.SysRole">
+        UPDATE sys_role
+        <set>
+            <if test="null != name and '' != name">name = #{name},</if>
+            <if test="null != code and '' != code">code = #{code},</if>
+            <if test="null != status">status = #{status},</if>
+            <if test="null != createTime">create_time = #{createTime},</if>
+            <if test="null != updateTime">update_time = #{updateTime}</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT <include refid="Base_Column_List" />
+        FROM sys_role
+        WHERE id = #{id}
+    </select>
+
+    <select id="pageList" resultType="com.mugu.blog.user.common.vo.SysRoleVo">
+        SELECT <include refid="Base_Column_List" />
+        FROM sys_role where status=1
+    </select>
+
+    <select id="pageListCount" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM sys_role
+    </select>
+
+    <select id="listByPermissionId" resultType="com.mugu.blog.user.common.po.SysRole">
+            SELECT
+        *
+    FROM
+        sys_role
+    WHERE
+        id IN (select srp.role_id from sys_role_permission srp where srp.permission_id=#{id})
+    </select>
+
+</mapper>

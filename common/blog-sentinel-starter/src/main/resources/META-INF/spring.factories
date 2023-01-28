@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.mugu.blog.sentinel.starter.config.SentinelAutoConfig

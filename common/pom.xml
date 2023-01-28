@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.flying</groupId>
+        <artifactId>ffsong</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>common</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>blog-mybatis-starter</module>
+        <module>blog-redis-starter</module>
+        <module>blog-core</module>
+        <module>user-common</module>
+        <module>blog-feign-starter</module>
+        <module>blog-datasource-starter</module>
+        <module>blog-common-starter</module>
+        <module>blog-swagger-starter</module>
+        <module>article-common</module>
+        <module>blog-nacos-starter</module>
+        <module>blog-seata-starter</module>
+        <module>blog-elasticsearch-starter</module>
+        <module>blog-rabbitmq-starter</module>
+        <module>blog-skywalking-starter</module>
+        <module>comments-common</module>
+        <module>blog-sentinel-starter</module>
+        <module>picture-common</module>
+        <module>friendlinks-common</module>
+        <module>file-server-common</module>
+        <module>blog-async-starter</module>
+        <module>blog-monitor-client-starter</module>
+        <module>blog-gray-starter</module>
+    </modules>
+</project>

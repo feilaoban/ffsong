@@ -30,7 +30,7 @@ class CommonTests {
     private static int b = 0;
 
     public static void main(String[] args) throws IllegalAccessException, InterruptedException {
-        //commonTest();
+        //testDateUtil();
 //        testRegular();
 //        test2ListToMap();
 //        testString2Integer();
@@ -43,7 +43,7 @@ class CommonTests {
         testDiffLocalDateTime();
     }
 
-    private static void commonTest() {
+    private static void testDateUtil() {
         //List<String> list = Lists.newArrayList("str");
         //System.out.println(list.contains(null));
 

@@ -6,14 +6,12 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.flying.demo.handler.CaseConversionHandler;
 import com.flying.demo.pojo.entity.Student;
+import org.apache.commons.lang.text.StrSubstitutor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
@@ -40,7 +38,8 @@ class CommonTests {
 //        testSnowflake();
 //        testPredicate();
 //        testAtomicInteger();
-        testDiffLocalDateTime();
+//        testDiffLocalDateTime();
+        textStrSubstitutor();
     }
 
     private static void testDateUtil() {
@@ -146,5 +145,22 @@ class CommonTests {
         LocalDateTime start = LocalDateTime.parse("2022-11-30T11:42:00");
         LocalDateTime end = LocalDateTime.now();
         System.out.println("相差天数：" + LocalDateTimeUtil.between(start, end, ChronoUnit.DAYS));
+    }
+
+    private static void textStrSubstitutor() {
+        String content1 = "验证码${code}，您正在注册，若非本人操作，请勿泄露。";
+        String content2 = "验证码{1}，您正在注册，若非本人操作，请勿泄露。";
+
+        Map<String, String> param1 = new HashMap<>();
+        param1.put("code", "123");
+        Map<String, String> param2 = new HashMap<>();
+        param2.put("1", "456");
+
+        StrSubstitutor strSubstitutor1 = new StrSubstitutor(param1);
+        StrSubstitutor strSubstitutor2 = new StrSubstitutor(param2);
+
+        System.out.println(strSubstitutor1.replace(content1));
+        content2 = content2.replaceAll("\\{", "\\${");
+        System.out.println(strSubstitutor2.replace(content2));
     }
 }

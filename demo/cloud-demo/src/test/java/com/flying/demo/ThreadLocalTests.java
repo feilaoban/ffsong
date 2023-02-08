@@ -9,7 +9,8 @@ import java.util.Objects;
  */
 public class ThreadLocalTests {
 
-    /* 【原理】：线程类Thread内部维护了一份局部变量，存放在ThreadLocal.ThreadLocalMap，是线程私有的 */
+    /* 【原理】：线程类Thread内部维护了一份局部变量，存放在ThreadLocal.ThreadLocalMap，是线程私有的；
+    ThreadLocal对象本身为key，代表了一个本地变量，多个变量需创建多个ThreadLocal */
 
     //private static ThreadLocal<Integer> LOCAL_NUM = new ThreadLocal<>();
     // 创建ThreadLocal时便设置初始值

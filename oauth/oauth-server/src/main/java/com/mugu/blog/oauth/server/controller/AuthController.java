@@ -63,6 +63,7 @@ public class AuthController implements InitializingBean {
     @ResponseBody
     public ResultMsg<OAuth2AccessToken> postAccessToken(Principal principal, @RequestParam
             Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
+        // oauth/token这个接口的作用就是将令牌封装到OAuth2AccessToken返回
         OAuth2AccessToken accessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         return ResultMsg.resultSuccess(accessToken);
     }

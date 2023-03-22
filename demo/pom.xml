@@ -52,7 +52,9 @@
     -->
 
     <!-- 要注意的是，spring-boot-dependencies和spring-cloud-alibaba-dependencies这两个依赖实际上并不是jar包，
-             我们点击进去就可以知道，这是一个聚合项目，里面只声明了常用的依赖的版本 -->
+         我们点击进去就可以知道，这是一个聚合项目，里面只声明了常用的依赖的版本。
+         具体的依赖引入应放到相应的子模块下，如网关需要引用 spring-cloud-starter-gateway，应放在gateway模块的pom中引入，公共依赖可放在父pom中引入或放在公共模块commons中。
+         由于本demo只有一个子模块，所以都在父pom引入了，实例项目中pom管理规范可参考木谷博客的项目。 -->
     <dependencyManagement>
         <dependencies>
             <dependency>

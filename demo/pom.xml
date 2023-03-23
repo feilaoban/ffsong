@@ -75,20 +75,18 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- 注意：由于spring-boot-starter-web默认替我们引入了核心启动器spring-boot-starter，因此，当Spring Boot项目中的
+         pom.xml引入了spring-boot-starter-web的依赖后，就无须再引入spring-boot-starter核心启动器的依赖了。 -->
+        <!-- SpringBoot Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- 测试依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <!-- SpringBoot Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- swagger -->
         <dependency>

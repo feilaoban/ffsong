@@ -1,5 +1,6 @@
 package com.flying.demo;
 
+import com.flying.demo.handler.event.CustomSpringEventPublisher;
 import com.flying.demo.strategy.AbstractOrderProcess;
 import com.flying.demo.strategy.CheckStoreProcess;
 import com.flying.demo.strategy.GenerateOrderProcess;
@@ -20,6 +21,8 @@ class DemoApplicationTests {
 
     @Autowired
     OrderProcessHandler orderProcessHandler;
+    @Autowired
+    CustomSpringEventPublisher customSpringEventPublisher;
 
     @Test
     void contextLoads() {
@@ -61,5 +64,10 @@ class DemoApplicationTests {
             throw new RuntimeException("策略不符合");
         }
         System.out.println(process.onSaveSuccess());  // CheckStore - 校验库存
+    }
+
+    @Test
+    void springEventTest() {
+        customSpringEventPublisher.publishCustomEvent("我发布了事件");
     }
 }

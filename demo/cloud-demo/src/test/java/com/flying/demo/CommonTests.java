@@ -39,7 +39,11 @@ class CommonTests {
 //        testPredicate();
 //        testAtomicInteger();
 //        testDiffLocalDateTime();
-        textStrSubstitutor();
+//        textStrSubstitutor();
+//        calculateWeeksInMonth2(8);
+//        calculateWeekOfYear();
+//        calculateWeeksInMonth1(1);
+        printWeeksOfYear(1);
     }
 
     private static void testDateUtil() {
@@ -162,5 +166,110 @@ class CommonTests {
         System.out.println(strSubstitutor1.replace(content1));
         content2 = content2.replaceAll("\\{", "\\${");
         System.out.println(strSubstitutor2.replace(content2));
+    }
+
+    /**
+     * 计算该周在全年是第几周
+     * @param month 月份，1-12
+     * @return 该月份的周数
+     */
+    private static void calculateWeeksInMonth(int month) {
+        Calendar calendar = Calendar.getInstance();
+        // 设置年份为当前年份
+        calendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+        // 设置月份
+        calendar.set(Calendar.MONTH, month - 1);
+        // 设置日期为该月份的第一天
+        calendar.set(Calendar.DATE, 1);
+        // 获取该月份的第一天是星期几
+        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        // 计算该月份的天数
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        // 计算该月份的周数
+        int weeksInMonth = (daysInMonth + firstDayOfWeek - 2) / 7 + 1;
+        // 输出该月份各个周，并结算每个周在全年是第几周
+        for (int i = 1; i <= weeksInMonth; i++) {
+            // 设置日期为该周的第一天
+            calendar.set(Calendar.DATE, (i - 1) * 7 + 1);
+            // 获取该周的第一天是全年的第几天
+            int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+            // 计算该周在全年是第几周
+            int weekOfYear = (dayOfYear + 6 - calendar.get(Calendar.DAY_OF_WEEK)) / 7;
+            System.out.println("第" + i + "周，全年第" + weekOfYear + "周");
+        }
+    }
+
+    /**
+     * 计算指定月份的周数
+     * @param month 月份，1-12
+     * @return 该月份的周数
+     */
+    private static void calculateWeeksInMonth2(int month) {
+        Calendar calendar = Calendar.getInstance();
+        // 设置年份为当前年份
+        calendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+        // 设置月份
+        calendar.set(Calendar.MONTH, month - 1);
+        // 设置日期为该月份的第一天
+        calendar.set(Calendar.DATE, 1);
+        // 获取该月份的第一天是星期几
+        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        // 计算该月份的天数
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        // 计算该月份的周数
+        int weeksInMonth = (daysInMonth + firstDayOfWeek - 2) / 7 + 1;
+        System.out.println(weeksInMonth);
+    }
+
+    /**
+     * 计算当前周是今年的第几周
+     * @return 当前周是今年的第几周
+     */
+    private static void calculateWeekOfYear() {
+        Calendar calendar = Calendar.getInstance();
+        System.out.println(calendar.get(Calendar.WEEK_OF_YEAR));
+    }
+
+    private static List<Integer> calculateWeeksInMonth1(int month) {
+        List<Integer> weeksOfYear = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        // 设置年份为当前年份
+        calendar.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR));
+        // 设置月份
+        calendar.set(Calendar.MONTH, month - 1);
+        // 设置日期为该月份的第一天
+        calendar.set(Calendar.DATE, 1);
+        // 获取该月份的第一天是星期几
+        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        // 计算该月份的天数
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        // 计算该月份的周数
+        int weeksInMonth = (daysInMonth + firstDayOfWeek - 2) / 7 + 1;
+        // 输出该月份各个周，并结算每个周在全年是第几周
+        for (int i = 1; i <= weeksInMonth; i++) {
+            // 设置日期为该周的第一天
+            calendar.set(Calendar.DATE, (i - 1) * 7 + 1);
+            // 获取该周的第一天是全年的第几天
+            int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+            // 计算该周在全年是第几周
+            int weekOfYear = (dayOfYear + 6 - calendar.get(Calendar.DAY_OF_WEEK)) / 7 + 1;
+            weeksOfYear.add(weekOfYear);
+        }
+        System.out.println(weeksOfYear);
+        return weeksOfYear;
+    }
+
+    public static void printWeeksOfYear(int month) {
+        Calendar calendar = Calendar.getInstance();
+        // 设置周一为每周的第一天
+        calendar.setFirstDayOfWeek(Calendar.MONDAY);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        int weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
+        int maxWeeks = calendar.getActualMaximum(Calendar.WEEK_OF_MONTH);
+        for (int i = 1; i <= maxWeeks; i++) {
+            System.out.println("Month " + month + ", Week " + i + " is Week " + weekOfYear + " of the year");
+            weekOfYear++;
+        }
     }
 }

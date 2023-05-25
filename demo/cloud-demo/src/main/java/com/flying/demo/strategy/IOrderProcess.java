@@ -27,4 +27,12 @@ public interface IOrderProcess extends Ordered {
         return "default : cancel";
     }
 
+    /**
+     * 1.此处<T>相当于修饰符，表示这是一个泛型方法
+     * 2.T表示方法的入参是T类型
+     * 3.注意<T>不是返回值，此处的返回值是void
+     * @param <T>
+     */
+    default <T> void test(T t) {}
+
 }

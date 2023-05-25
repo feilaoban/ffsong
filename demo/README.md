@@ -16,7 +16,7 @@
 3、体质测评算法（项目）
 4、常规用法
 5、异步 CompletableFuture 各方法使用
-6、策略模式单元
+6、策略模式
 7、Optional用法
 8、ThreadLocal用法
 ```

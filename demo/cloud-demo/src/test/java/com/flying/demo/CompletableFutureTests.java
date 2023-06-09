@@ -32,6 +32,16 @@ public class CompletableFutureTests {
         thenCompose();
     }
 
+    /**
+     * 相同点：
+     * 　　join()和get()方法都是阻塞调用它们的线程（通常为主线程）来获取CompletableFuture异步之后的返回值。
+     * 不同点：
+     *     1.join()方法抛出的是uncheckException异常（即RuntimeException),不会强制开发者抛出
+     *     2.get()方法抛出的是经过检查的异常，ExecutionException, InterruptedException 需要用户手动处理（抛出或者 try catch）
+     *
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
     private static void testSupplyAsync() throws ExecutionException, InterruptedException {
         CompletableFuture<String> future1 = CompletableFuture.supplyAsync(() -> {
             try {

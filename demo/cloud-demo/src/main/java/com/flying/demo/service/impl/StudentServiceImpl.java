@@ -4,17 +4,23 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.flying.demo.handler.ErrorContextHandler;
 import com.flying.demo.dao.StudentMapper;
+import com.flying.demo.handler.ErrorContextHandler;
 import com.flying.demo.pojo.dto.StudentDTO;
 import com.flying.demo.pojo.entity.Student;
 import com.flying.demo.service.StudentService;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,6 +57,22 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
             ErrorContextHandler.clear();
             System.out.println(printMsg);
         }
+    }
+
+    @SneakyThrows
+    @Override
+    public void export(HttpServletResponse response) {
+        List<Student> students = getAll();
+        String title = "学生列表" + LocalDate.now();
+
+        response.setContentType("application/vnd.ms-excel");
+        response.setCharacterEncoding("utf-8");
+        response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(title, "UTF-8") + ".xlsx");
+
+        ExcelWriter excelWriter = EasyExcel.write(response.getOutputStream()).build();
+        WriteSheet sheet1 = EasyExcel.writerSheet(0, "学生列表").head(Student.class).build();
+        excelWriter.write(students, sheet1);
+        excelWriter.finish();
     }
 
     @Override

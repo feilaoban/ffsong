@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.flying.demo.pojo.entity.Student;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,6 +21,12 @@ public interface StudentService extends IService<Student> {
      * @throws IOException
      */
     void batchSave(MultipartFile file) throws IOException;
+
+    /**
+     * 导出到Excel
+     * @return
+     */
+    void export(HttpServletResponse response);
 
     /**
      * 根据ID获取学生信息

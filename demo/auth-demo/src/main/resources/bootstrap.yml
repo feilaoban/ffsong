@@ -1,0 +1,8 @@
+# 加载顺序：系统配置 > 业务配置
+# bootstrap.yml（bootstrap.properties） > application.yml（application.properties）
+
+spring:
+  application:
+    name: cloud-demo
+  main:
+    allow-bean-definition-overriding: true

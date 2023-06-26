@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.OauthClientMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="pojo.entity.OauthClient">
+        <id column="client_id" property="clientId" />
+        <result column="resource_ids" property="resourceIds" />
+        <result column="client_secret" property="clientSecret" />
+        <result column="scope" property="scope" />
+        <result column="authorized_grant_types" property="authorizedGrantTypes" />
+        <result column="web_server_redirect_uri" property="webServerRedirectUri" />
+        <result column="authorities" property="authorities" />
+        <result column="access_token_validity" property="accessTokenValidity" />
+        <result column="refresh_token_validity" property="refreshTokenValidity" />
+        <result column="additional_information" property="additionalInformation" />
+        <result column="autoapprove" property="autoapprove" />
+        <result column="tenant_id" property="tenantId" />
+        <result column="org_level" property="orgLevel" />
+        <result column="company_id" property="companyId" />
+        <result column="delete_flag" property="deleteFlag" />
+        <result column="creator_id" property="creatorId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="modifieder_id" property="modifiederId" />
+        <result column="gmt_modified" property="gmtModified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        client_id, resource_ids, client_secret, scope, authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity, additional_information, autoapprove, tenant_id, org_level, company_id, delete_flag, creator_id, gmt_create, modifieder_id, gmt_modified
+    </sql>
+
+</mapper>

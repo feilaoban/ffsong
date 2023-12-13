@@ -1,4 +1,6 @@
-package com.flying.demo.proxy;
+package com.flying.demo.proxy.staticProxy;
+
+import com.flying.demo.proxy.RealCalculator;
 
 /**
  * @Author songfeifei
@@ -10,7 +12,7 @@ public class ProxyTest {
     public static void main(String[] args) {
         RealCalculator realCalculator = new RealCalculator();
         // 把被代理类的对象交由代理类管理
-        StaticProxyCalculator staticProxyCalc = new StaticProxyCalculator(realCalculator);
+        ProxyCalculator staticProxyCalc = new ProxyCalculator(realCalculator);
         staticProxyCalc.add(1, 2);
         staticProxyCalc.subtract(2, 1);
     }

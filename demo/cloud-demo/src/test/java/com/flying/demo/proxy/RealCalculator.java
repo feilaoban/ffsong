@@ -1,5 +1,7 @@
 package com.flying.demo.proxy;
 
+import com.flying.demo.proxy.Calculator;
+
 /**
  * @Author songfeifei
  * @Date 2023/12/13 10:57

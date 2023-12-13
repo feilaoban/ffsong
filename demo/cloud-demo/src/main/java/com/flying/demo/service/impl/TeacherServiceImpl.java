@@ -38,8 +38,11 @@ public class TeacherServiceImpl extends ServiceImpl<TeacherMapper, Teacher> impl
     }
 
 /*
-    // 在类内部调用调用类内部@Transactional标注的方法，会导致事务失效。@Transactional加在外部方法上正常，即在saveTeacher()上
-    // 即，必须在入口方法中使用@Transactional
+    // 在类内部调用调用类内部@Transactional标注的方法，会导致事务失效。
+    // @Transactional加在外部方法saveTeacher()正常。即，必须在入口方法中使用@Transactional。
+    // 原理说明：类内部调用是this.method()方式调用，没有使用代理对象，只有代理对象对@Transactional标注的方法进行了增强，因为原始多想调用时事务会失效
+    // 解决：获取代理类对象，并调用方法，详见 68 行
+
     @Override
     public void saveTeacher() {
         save();

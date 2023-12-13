@@ -1,4 +1,4 @@
-package com.flying.demo;
+package com.flying.demo.pojo.dto;
 
 import com.flying.demo.pojo.entity.Student;
 import lombok.Data;
@@ -12,7 +12,7 @@ import java.util.List;
  * @Description
  */
 @Data
-public class StudentDto implements Serializable {
+public class StudentDeepCloneDTO implements Serializable {
 
     private List<Student> students;
 

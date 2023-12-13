@@ -5,6 +5,7 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.flying.demo.handler.CaseConversionHandler;
+import com.flying.demo.pojo.dto.StudentDeepCloneDTO;
 import com.flying.demo.pojo.entity.Student;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.text.StrSubstitutor;
@@ -291,7 +292,7 @@ class CommonTests {
         student.setCnName("小明");
         List<Student> list = Lists.newArrayList(student);
 
-        StudentDto dto = new StudentDto();
+        StudentDeepCloneDTO dto = new StudentDeepCloneDTO();
         dto.setStudents(list);
 
         List<Student> list1 = SerializationUtils.clone(dto).getStudents();

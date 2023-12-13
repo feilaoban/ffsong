@@ -5,7 +5,7 @@ package com.flying.demo.proxy;
  * @Date 2023/12/13 10:57
  * @Description 代理类
  */
-public class ProxyCalculator implements Calculator {
+public class StaticProxyCalculator implements Calculator {
 
     /**
      * 静态代理：显示的定义一个代理类
@@ -14,7 +14,7 @@ public class ProxyCalculator implements Calculator {
      */
     private final Calculator realCalculator;
 
-    ProxyCalculator(Calculator calculator) {
+    StaticProxyCalculator(Calculator calculator) {
         this.realCalculator = calculator;
     }
 

@@ -22,7 +22,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 /**
- * 认证授权中心的配置
+ * 认证授权中心的配置，配置授权中心的工作方式
  * `@EnableAuthorizationServer`：这个注解标注这是一个认证授权中心
  */
 @Configuration

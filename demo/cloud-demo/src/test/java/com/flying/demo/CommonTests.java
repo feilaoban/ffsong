@@ -6,7 +6,9 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.flying.demo.handler.CaseConversionHandler;
 import com.flying.demo.pojo.entity.Student;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.text.StrSubstitutor;
+import org.apache.commons.lang3.SerializationUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -43,7 +45,17 @@ class CommonTests {
 //        calculateWeeksInMonth2(8);
 //        calculateWeekOfYear();
 //        calculateWeeksInMonth1(1);
-        printWeeksOfYear(1);
+//        printWeeksOfYear(1);
+//        testDeepCloneObject();
+        //testDeepCloneLong();
+
+
+        int dividend = 4;
+        int divisor = 3;
+
+        double result = (double) dividend / divisor; // 将dividend转换为double类型
+        result = Math.round(result * 100.0) / 100.0; // 进行四舍五入并保留两位小数
+        System.out.println(result);
     }
 
     private static void testDateUtil() {
@@ -271,5 +283,41 @@ class CommonTests {
             System.out.println("Month " + month + ", Week " + i + " is Week " + weekOfYear + " of the year");
             weekOfYear++;
         }
+    }
+
+    public static void testDeepCloneObject() {
+        Student student = new Student();
+        student.setGuid(1L);
+        student.setCnName("小明");
+        List<Student> list = Lists.newArrayList(student);
+
+        StudentDto dto = new StudentDto();
+        dto.setStudents(list);
+
+        List<Student> list1 = SerializationUtils.clone(dto).getStudents();
+        for (Student student1 : list1) {
+            student1.setCnName("小王");
+        }
+
+        //List<Student> list2 = new ArrayList<>(list);
+        //for (Student student1 : list2) {
+        //    student1.setCnName("小李");
+        //}
+
+        System.out.println(list);
+        System.out.println(list1);
+        //System.out.println(list2);
+    }
+
+    public static void testDeepCloneLong() {
+        List<Long> list = new ArrayList<>();
+        list.add(1L);
+
+        List<Long> list1 = new ArrayList<>(list);
+        list1.add(2L);
+
+        System.out.println(list);
+        System.out.println(list1);
+        //System.out.println(list2);
     }
 }

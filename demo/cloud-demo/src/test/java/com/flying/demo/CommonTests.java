@@ -49,14 +49,8 @@ class CommonTests {
 //        printWeeksOfYear(1);
 //        testDeepCloneObject();
         //testDeepCloneLong();
+        intDivideRound();
 
-
-        int dividend = 4;
-        int divisor = 3;
-
-        double result = (double) dividend / divisor; // 将dividend转换为double类型
-        result = Math.round(result * 100.0) / 100.0; // 进行四舍五入并保留两位小数
-        System.out.println(result);
     }
 
     private static void testDateUtil() {
@@ -183,6 +177,7 @@ class CommonTests {
 
     /**
      * 计算该周在全年是第几周
+     *
      * @param month 月份，1-12
      * @return 该月份的周数
      */
@@ -214,6 +209,7 @@ class CommonTests {
 
     /**
      * 计算指定月份的周数
+     *
      * @param month 月份，1-12
      * @return 该月份的周数
      */
@@ -236,6 +232,7 @@ class CommonTests {
 
     /**
      * 计算当前周是今年的第几周
+     *
      * @return 当前周是今年的第几周
      */
     private static void calculateWeekOfYear() {
@@ -320,5 +317,14 @@ class CommonTests {
         System.out.println(list);
         System.out.println(list1);
         //System.out.println(list2);
+    }
+
+    private static void intDivideRound() {
+        int dividend = 4;
+        int divisor = 3;
+
+        double result = (double) dividend / divisor; // 将dividend转换为double类型
+        result = Math.round(result * 100.0) / 100.0; // 进行四舍五入并保留两位小数
+        System.out.println(result);
     }
 }
